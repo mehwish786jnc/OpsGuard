@@ -1,0 +1,45 @@
+# Example: run OpsGuard on every pull request and comment the report.
+#
+# This workflow dogfoods OpsGuard on its own example manifests. Copy it into
+# your own repository and point `paths`/`tf-plan` at your infrastructure.
+name: OpsGuard
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write   # needed to post the report comment
+  security-events: write # needed to upload SARIF to the Security tab
+
+jobs:
+  opsguard:
+    name: Production change review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # If you manage infrastructure with Terraform, generate a plan JSON first:
+      #
+      #   - uses: hashicorp/setup-terraform@v3
+      #   - run: terraform init
+      #   - run: terraform plan -out tfplan.binary
+      #   - run: terraform show -json tfplan.binary > tfplan.json
+      #
+      # then pass `tf-plan: tfplan.json` below.
+
+      - name: OpsGuard scan
+        uses: ./                      # use `mehwish786jnc/OpsGuard@v1` in your repo
+        with:
+          install-from: "."           # install from the checked-out source (dogfood)
+          paths: "examples/risky-k8s"
+          tf-plan: "examples/terraform/tfplan.json"
+          fail-on: "high"
+          sarif-file: "opsguard.sarif"
+          comment: "true"
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: opsguard.sarif

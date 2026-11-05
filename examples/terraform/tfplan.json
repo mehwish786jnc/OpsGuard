@@ -1,0 +1,99 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.7.0",
+  "resource_changes": [
+    {
+      "address": "aws_db_instance.payments",
+      "type": "aws_db_instance",
+      "name": "payments",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["delete"],
+        "before": {
+          "identifier": "payments-prod",
+          "engine": "postgres",
+          "storage_encrypted": true
+        },
+        "after": null,
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_security_group.db",
+      "type": "aws_security_group",
+      "name": "db",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "ingress": [
+            {
+              "from_port": 5432,
+              "to_port": 5432,
+              "protocol": "tcp",
+              "cidr_blocks": ["10.0.0.0/16"]
+            }
+          ]
+        },
+        "after": {
+          "ingress": [
+            {
+              "from_port": 5432,
+              "to_port": 5432,
+              "protocol": "tcp",
+              "cidr_blocks": ["0.0.0.0/0"]
+            }
+          ]
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_s3_bucket_acl.reports",
+      "type": "aws_s3_bucket_acl",
+      "name": "reports",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "bucket": "payments-reports",
+          "acl": "public-read"
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_iam_role_policy.admin",
+      "type": "aws_iam_role_policy",
+      "name": "admin",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "admin-policy",
+          "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"*\",\"Resource\":\"*\"}]}"
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_db_instance.analytics",
+      "type": "aws_db_instance",
+      "name": "analytics",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "identifier": "analytics-prod",
+          "engine": "postgres",
+          "publicly_accessible": true,
+          "storage_encrypted": false
+        },
+        "after_unknown": {}
+      }
+    }
+  ]
+}

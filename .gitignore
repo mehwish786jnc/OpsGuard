@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.ruff_cache/
+.mypy_cache/
+
+# OpsGuard outputs
+*.sarif
+opsguard-report.*
+
+# Terraform
+*.tfstate
+*.tfstate.*
+tfplan.binary
+.terraform/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store

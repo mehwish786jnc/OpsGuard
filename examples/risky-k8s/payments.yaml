@@ -1,0 +1,86 @@
+# A deliberately risky microservice deployment used to demonstrate OpsGuard.
+# Running `opsguard scan examples/risky-k8s` should surface many findings.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-api
+  namespace: production
+  labels:
+    app: payments-api
+spec:
+  replicas: 1                      # K8S-REL-003: single replica, no redundancy
+  selector:
+    matchLabels:
+      app: payments-api
+  template:
+    metadata:
+      labels:
+        app: payments-api
+    spec:
+      hostNetwork: true            # K8S-SEC-002: host network namespace
+      hostPID: true                # K8S-SEC-003: host PID namespace
+      containers:
+        - name: payments-api
+          image: mycorp/payments-api:latest   # K8S-IMG-001: mutable tag
+          ports:
+            - containerPort: 8080
+          securityContext:
+            privileged: true       # K8S-SEC-001: privileged (CRITICAL)
+            runAsUser: 0            # K8S-SEC-004: runs as root
+            allowPrivilegeEscalation: true  # K8S-SEC-005
+            capabilities:
+              add:
+                - SYS_ADMIN        # K8S-SEC-006: dangerous capability
+          # K8S-REL-001: no liveness/readiness probes
+          # K8S-REL-002: no resource requests/limits
+          envFrom:
+            - secretRef:
+                name: payments-db-credentials   # dependency on a Secret
+          env:
+            - name: CONFIG_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: payments-config
+                  key: mode
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-api
+  namespace: production
+spec:
+  type: LoadBalancer              # K8S-EXPOSURE-001: public exposure
+  selector:
+    app: payments-api
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: payments-ingress
+  namespace: production
+spec:                             # K8S-EXPOSURE-003: no TLS block
+  rules:
+    - host: payments.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: payments-api
+                port:
+                  number: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payments-config
+  namespace: production
+data:
+  mode: "live"
+# NOTE: the 'payments-db-credentials' Secret referenced above is intentionally
+# NOT defined here — it is managed externally by the platform team.

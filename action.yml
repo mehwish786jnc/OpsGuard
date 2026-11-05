@@ -1,0 +1,101 @@
+name: "OpsGuard"
+description: "Catch the change before it breaks production. Detect dangerous Kubernetes & Terraform changes in pull requests."
+author: "OpsGuard Contributors"
+branding:
+  icon: "shield"
+  color: "red"
+
+inputs:
+  paths:
+    description: "Space/comma/newline separated files or directories with Kubernetes manifests to scan."
+    required: false
+    default: "."
+  tf-plan:
+    description: "Terraform plan JSON file(s) produced by `terraform show -json`."
+    required: false
+    default: ""
+  fail-on:
+    description: "Fail the job if a finding at or above this severity exists (info, low, medium, high, critical, never)."
+    required: false
+    default: "high"
+  min-severity:
+    description: "Hide findings below this severity in the report."
+    required: false
+    default: "info"
+  comment:
+    description: "Post/update a sticky report comment on the pull request."
+    required: false
+    default: "true"
+  sarif-file:
+    description: "If set, write a SARIF 2.1.0 report to this path (upload it with github/codeql-action/upload-sarif)."
+    required: false
+    default: ""
+  ai:
+    description: "Attach AI explanations to findings."
+    required: false
+    default: "false"
+  ai-provider:
+    description: "AI provider: offline, ollama, gemini."
+    required: false
+    default: "offline"
+  ai-model:
+    description: "Model name for the AI provider."
+    required: false
+    default: ""
+  install-from:
+    description: "pip install source for OpsGuard (e.g. 'opsguard', 'opsguard==0.1.0', or '.' to install from the checked-out repo)."
+    required: false
+    default: "opsguard"
+  python-version:
+    description: "Python version to set up."
+    required: false
+    default: "3.11"
+  token:
+    description: "GitHub token used to post the PR comment."
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  total-findings:
+    description: "Total number of findings."
+    value: ${{ steps.run.outputs.total-findings }}
+  max-severity:
+    description: "Highest severity found (or NONE)."
+    value: ${{ steps.run.outputs.max-severity }}
+  critical:
+    description: "Number of critical findings."
+    value: ${{ steps.run.outputs.critical }}
+  high:
+    description: "Number of high findings."
+    value: ${{ steps.run.outputs.high }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install OpsGuard
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install ${{ inputs.install-from }}
+
+    - name: Run OpsGuard
+      id: run
+      shell: bash
+      run: python "${{ github.action_path }}/entrypoint.py"
+      env:
+        INPUT_PATHS: ${{ inputs.paths }}
+        INPUT_TF_PLAN: ${{ inputs.tf-plan }}
+        INPUT_FAIL_ON: ${{ inputs.fail-on }}
+        INPUT_MIN_SEVERITY: ${{ inputs.min-severity }}
+        INPUT_COMMENT: ${{ inputs.comment }}
+        INPUT_SARIF_FILE: ${{ inputs.sarif-file }}
+        INPUT_AI: ${{ inputs.ai }}
+        INPUT_AI_PROVIDER: ${{ inputs.ai-provider }}
+        INPUT_AI_MODEL: ${{ inputs.ai-model }}
+        INPUT_TOKEN: ${{ inputs.token }}
+        GITHUB_TOKEN: ${{ inputs.token }}
