@@ -1,0 +1,49 @@
+name: 🛡️ New rule proposal
+description: Suggest a new production risk for OpsGuard to detect.
+labels: ["rule", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: New rules are the most valuable contribution to OpsGuard. Thank you!
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider
+      options:
+        - Kubernetes
+        - Terraform
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: risk
+    attributes:
+      label: What risk should it catch?
+      description: Describe the dangerous configuration or change and why it threatens production.
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Suggested severity
+      options: [Critical, High, Medium, Low, Info]
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example input
+      description: A minimal manifest or Terraform plan snippet that should trigger the rule.
+      render: yaml
+  - type: textarea
+    id: remediation
+    attributes:
+      label: Recommended fix
+      description: What should the engineer change to resolve it?
+    validations:
+      required: true
+  - type: input
+    id: reference
+    attributes:
+      label: Reference
+      description: Optional link to docs, a CVE, or a best-practice guide.

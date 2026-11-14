@@ -1,0 +1,44 @@
+name: 🐛 Bug report
+description: Something isn't working as expected.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to file a bug! Please fill in the details below.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Include the exact `opsguard` command and, if possible, a minimal manifest or plan.
+      placeholder: |
+        1. `opsguard scan ./k8s --tf-plan tfplan.json`
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output / error
+      description: Paste the relevant terminal output or stack trace.
+      render: shell
+  - type: input
+    id: version
+    attributes:
+      label: OpsGuard version
+      description: Output of `opsguard --version`.
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      description: Output of `python --version`.
+    validations:
+      required: true
