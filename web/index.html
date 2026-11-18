@@ -18,14 +18,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Manrope:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-mono/style.css" />
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- Three.js (vendored) for the background particle field -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/three.module.js"
+        }
+      }
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <div class="particles" id="particles" aria-hidden="true"></div>
 
     <!-- ───────────────────────────── Header ───────────────────────────── -->
     <header class="header" id="header">
@@ -83,7 +93,7 @@
         </div>
 
         <div class="hero__inner">
-          <!-- Original animated guard-bot mascot -->
+          <!-- Animated guard-bot mascot -->
           <div class="robot" aria-hidden="true">
           <div class="robot__rings">
             <span></span><span></span><span></span>
@@ -95,9 +105,9 @@
                 <stop offset="1" stop-color="#1a1b21" />
               </linearGradient>
               <radialGradient id="botEye" cx="0.5" cy="0.5" r="0.5">
-                <stop offset="0" stop-color="#bfe0ff" />
-                <stop offset="0.5" stop-color="#52a8ff" />
-                <stop offset="1" stop-color="#1f6fd6" />
+                <stop offset="0" stop-color="#d6fbff" />
+                <stop offset="0.5" stop-color="#00f3ff" />
+                <stop offset="1" stop-color="#0097b8" />
               </radialGradient>
               <filter id="botGlow" x="-60%" y="-60%" width="220%" height="220%">
                 <feGaussianBlur stdDeviation="5" result="b" />
@@ -106,7 +116,7 @@
             </defs>
 
             <!-- hover shadow -->
-            <ellipse class="robot__shadow" cx="180" cy="372" rx="78" ry="13" fill="#52a8ff" />
+            <ellipse class="robot__shadow" cx="180" cy="372" rx="78" ry="13" fill="#00f3ff" />
 
             <g class="robot__float">
               <!-- antenna -->
@@ -137,7 +147,7 @@
               <rect x="104" y="164" width="152" height="128" rx="28" fill="url(#botBody)" stroke="rgba(255,255,255,0.42)" />
               <!-- shield emblem -->
               <path d="M180 188l30 11v18c0 17-12 29-30 37-18-8-30-20-30-37v-18l30-11Z" fill="#000" stroke="rgba(82,168,255,0.5)" stroke-width="2" />
-              <path class="robot__check" d="m166 222 9 9 18-19" fill="none" stroke="#52a8ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#botGlow)" />
+              <path class="robot__check" d="m166 222 9 9 18-19" fill="none" stroke="#00f3ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#botGlow)" />
             </g>
           </svg>
         </div>
@@ -353,6 +363,34 @@
         </div>
       </section>
 
+      <!-- ───────────────────────── Lab / generative graphic ───────────────────────── -->
+      <section class="section" id="lab">
+        <div class="container">
+          <div class="lab glass">
+            <div class="lab__copy">
+              <p class="eyebrow">OpsGuard Lab</p>
+              <h2 class="section-title">A deterministic engine, not a guessing machine.</h2>
+              <p class="section-sub">
+                The graph, risk score and AI explanations only enrich findings — every security
+                verdict is made by code that gives the same answer every time. Reproducible in CI,
+                auditable in review, safe in air-gapped pipelines.
+              </p>
+              <a class="btn-square" href="docs/architecture/">Explore the engine
+                <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+              </a>
+            </div>
+            <div class="lab__viz" aria-hidden="true">
+              <span class="ring ring--1"></span>
+              <span class="ring ring--2"></span>
+              <span class="ring ring--3"></span>
+              <span class="lab__core">
+                <svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3Z" fill="none" stroke="#00f3ff" stroke-width="1.4"/><path d="m8.5 12 2.4 2.4 4.6-4.8" fill="none" stroke="#00f3ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ───────────────────────────── CTA ───────────────────────────── -->
       <section class="section">
         <div class="container">
@@ -412,5 +450,6 @@
     </footer>
 
     <script src="app.js" defer></script>
+    <script type="module" src="particles.js"></script>
   </body>
 </html>

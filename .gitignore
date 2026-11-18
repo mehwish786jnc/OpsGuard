@@ -40,3 +40,6 @@ tfplan.binary
 .idea/
 .vscode/
 .DS_Store
+
+# Local preview screenshots (scratch)
+.render/

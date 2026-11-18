@@ -1,0 +1,341 @@
+/* ============================================================================
+   OpsGuard docs — "Tech-Noir" theme to match the marketing landing.
+   #050505 canvas · glass surfaces · neon cyan/pink/purple · Archivo headings ·
+   Manrope body · Geist Mono code.
+   ========================================================================== */
+
+@import url("https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-mono/style.css");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&display=swap");
+
+:root {
+  --md-text-font: "Manrope";
+  --md-code-font: "Geist Mono";
+}
+
+[data-md-color-scheme="slate"] {
+  --og-ring: rgba(255, 255, 255, 0.1);
+  --og-ring-soft: rgba(255, 255, 255, 0.06);
+  --og-card: rgba(255, 255, 255, 0.03);
+  --og-cyan: #00f3ff;
+  --og-pink: #ff00c1;
+  --og-purple: #9d00ff;
+
+  --md-hue: 225;
+
+  --md-default-bg-color: #050505;
+  --md-default-fg-color: #e9e9ee;
+  --md-default-fg-color--light: #c7c7d2;
+  --md-default-fg-color--lighter: #8b8b97;
+  --md-default-fg-color--lightest: #55555f;
+
+  --md-primary-fg-color: #050505;
+  --md-primary-fg-color--light: #0a0a0a;
+  --md-primary-fg-color--dark: #050505;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: #c7c7d2;
+
+  --md-accent-fg-color: #00f3ff;
+  --md-accent-fg-color--transparent: rgba(0, 243, 255, 0.1);
+
+  --md-typeset-a-color: #00f3ff;
+
+  --md-code-bg-color: #0a0a0a;
+  --md-code-fg-color: #e7e7e7;
+
+  --md-footer-bg-color: #050505;
+  --md-footer-bg-color--dark: #050505;
+
+  --md-typeset-mark-color: rgba(0, 243, 255, 0.28);
+}
+
+/* ---- Header: black with a hairline rule, like the landing nav ---------- */
+.md-header {
+  border-bottom: 1px solid var(--og-ring-soft);
+  box-shadow: none;
+}
+.md-header--shadow {
+  box-shadow: none;
+}
+.md-tabs {
+  border-bottom: 1px solid var(--og-ring-soft);
+}
+.md-header__title {
+  font-family: "Archivo", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.4px;
+  text-transform: uppercase;
+}
+
+/* Logo sizing parity with the landing shield */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+/* ---- Headlines: Archivo Black, tight tracking, uppercase --------------- */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-family: "Archivo", sans-serif;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+.md-typeset h1 {
+  letter-spacing: -1.6px;
+}
+
+/* ---- Code & tables: rounded, ringed, #0a0a0a --------------------------- */
+.md-typeset pre > code,
+.md-typeset .highlight {
+  border-radius: 14px;
+}
+.md-typeset pre > code {
+  border: 1px solid var(--og-ring);
+}
+.md-typeset code {
+  border-radius: 6px;
+}
+.md-typeset table:not([class]) {
+  border: 1px solid var(--og-ring);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.md-typeset table:not([class]) th {
+  background: var(--og-card);
+  color: #fff;
+  font-family: var(--md-code-font);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.md-typeset table:not([class]) td {
+  border-top: 1px solid var(--og-ring-soft);
+}
+
+/* ---- Admonitions / details: rounded, glass ----------------------------- */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 16px;
+  border: 1px solid var(--og-ring);
+  background: var(--og-card);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* ---- Buttons: pill, Archivo ------------------------------------------- */
+.md-typeset .md-button {
+  border-radius: 9999px;
+  border-color: var(--og-ring);
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+}
+.md-typeset .md-button--primary {
+  background: #ffffff;
+  color: #050505;
+  border-color: #ffffff;
+}
+
+/* ---- Search surface ---------------------------------------------------- */
+.md-search__form {
+  border-radius: 9999px;
+  background: var(--og-card);
+  border: 1px solid var(--og-ring);
+}
+[data-md-toggle="search"]:checked ~ .md-header .md-search__form {
+  background: var(--og-card);
+}
+.md-search__output {
+  border-radius: 16px;
+}
+
+/* ---- Nav active state in brand blue ------------------------------------ */
+.md-nav__link--active,
+.md-nav__link:focus,
+.md-nav__link:hover {
+  color: var(--md-accent-fg-color);
+}
+
+/* ---- Footer hairline --------------------------------------------------- */
+.md-footer-meta {
+  border-top: 1px solid var(--og-ring-soft);
+}
+
+/* ---- Selection ---------------------------------------------------------- */
+::selection {
+  background: rgba(0, 243, 255, 0.3);
+}
+
+/* ======================================================================== */
+/*  Home hero                                                               */
+/* ======================================================================== */
+.og-hero {
+  position: relative;
+  padding: 3.4rem 0 2.6rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--og-ring-soft);
+}
+.og-hero::before {
+  content: "";
+  position: absolute;
+  inset: -40% -30% auto auto;
+  width: 60%;
+  height: 320px;
+  background: radial-gradient(45% 60% at 80% 20%, rgba(0, 243, 255, 0.18), transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: -1;
+}
+.md-typeset .og-hero h1 {
+  font-family: "Archivo", sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  margin: 0 0 0.3rem;
+  color: #fff;
+}
+.md-typeset .og-hero h3 {
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: -0.8px;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+  margin: 0 0 1.1rem;
+}
+.md-typeset .og-hero p {
+  max-width: 44rem;
+  color: var(--md-default-fg-color--light);
+}
+.md-typeset .og-hero .md-button {
+  margin-top: 0.6rem;
+  margin-right: 0.5rem;
+}
+
+/* ======================================================================== */
+/*  Buttons                                                                 */
+/* ======================================================================== */
+.md-typeset .md-button {
+  border-radius: 9999px;
+  border: 1px solid var(--og-ring);
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.5s ease, box-shadow 0.6s ease,
+    opacity 0.3s ease;
+}
+.md-typeset .md-button:hover {
+  transform: translateY(-2px);
+  border-color: var(--og-cyan);
+  background: transparent;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+}
+.md-typeset .md-button--primary {
+  background: #fff;
+  color: #050505;
+  border-color: #fff;
+}
+.md-typeset .md-button--primary:hover {
+  background: #fff;
+  color: #050505;
+  opacity: 0.86;
+}
+
+/* ======================================================================== */
+/*  Grid cards                                                              */
+/* ======================================================================== */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border: 1px solid var(--og-ring);
+  border-radius: 40px;
+  background: var(--og-card);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  padding: 1.4rem 1.5rem;
+  transition: border-color 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.6s ease;
+}
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--md-accent-fg-color);
+  transform: translateY(-5px);
+  box-shadow: 0 0 24px rgba(0, 243, 255, 0.2);
+}
+.md-typeset .grid.cards > ul > li > hr {
+  margin: 0.6rem 0;
+  border-color: var(--og-ring-soft);
+}
+.md-typeset .og-ic {
+  color: var(--md-accent-fg-color);
+}
+.md-typeset .grid.cards .og-ic svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  vertical-align: -0.3rem;
+  margin-right: 0.35rem;
+}
+.md-typeset .grid.cards .twemoji svg {
+  fill: currentColor;
+}
+
+/* ======================================================================== */
+/*  Top tabs                                                                */
+/* ======================================================================== */
+.md-tabs {
+  background: #000;
+}
+.md-tabs__link {
+  opacity: 0.74;
+  font-size: 0.74rem;
+  letter-spacing: 0.01em;
+}
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  opacity: 1;
+  color: #fff;
+}
+.md-tabs__item--active .md-tabs__link {
+  position: relative;
+}
+.md-tabs__item--active .md-tabs__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.55rem;
+  height: 2px;
+  background: var(--md-accent-fg-color);
+}
+
+/* ======================================================================== */
+/*  Links & misc polish                                                     */
+/* ======================================================================== */
+.md-typeset a {
+  text-underline-offset: 0.2em;
+}
+.md-typeset a:hover {
+  text-decoration: underline;
+}
+.md-typeset h2 {
+  margin-top: 2.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--og-ring-soft);
+}
+.md-typeset .og-hero h1,
+.md-typeset .og-hero h3 {
+  border: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+.md-typeset .admonition.danger,
+.md-typeset .admonition.warning,
+.md-typeset .admonition.info {
+  background: var(--og-card);
+}
+/* keep grid of admonitions tidy */
+.md-typeset .grid > .admonition {
+  margin: 0;
+}

@@ -8,33 +8,37 @@ copyright: Apache-2.0 licensed · Built by the OpsGuard contributors
 
 theme:
   name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  font:
+    text: Inter
   icon:
-    logo: material/shield-check
     repo: fontawesome/brands/github
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
+    - scheme: slate
+      primary: black
+      accent: blue
   features:
+    - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
     - navigation.top
     - navigation.instant
+    - navigation.tracking
     - content.code.copy
     - content.code.annotate
     - toc.follow
     - search.suggest
     - search.highlight
+
+extra_css:
+  - stylesheets/opsguard.css
+
+extra:
+  # Clicking the header logo/title (and the "Landing" tab) leaves the docs and
+  # returns to the marketing landing page. Defaults to the deployed Pages URL;
+  # override for local preview, e.g. OPSGUARD_HOMEPAGE=http://localhost:8080/
+  homepage: !ENV [OPSGUARD_HOMEPAGE, "https://mehwish786jnc.github.io/OpsGuard/"]
 
 plugins:
   - search
@@ -43,9 +47,13 @@ plugins:
 markdown_extensions:
   - admonition
   - attr_list
+  - md_in_html
   - tables
   - toc:
       permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.superfences:
@@ -59,11 +67,15 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Installation: installation.md
-  - Usage: usage.md
-  - GitHub Action: github-action.md
-  - Rules: rules.md
-  - AI explanations: ai.md
-  - Architecture: architecture.md
-  - Contributing: contributing.md
-  - Changelog: changelog.md
+  - Guide:
+      - Installation: installation.md
+      - Usage: usage.md
+      - GitHub Action: github-action.md
+  - Reference:
+      - Rules: rules.md
+      - AI explanations: ai.md
+      - Architecture: architecture.md
+  - Project:
+      - Contributing: contributing.md
+      - Changelog: changelog.md
+  - Landing ↗: !ENV [OPSGUARD_HOMEPAGE, "https://mehwish786jnc.github.io/OpsGuard/"]
