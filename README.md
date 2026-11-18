@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛡️ OpsGuard
+# OpsGuard
 
 ### Catch the change before it breaks production.
 
@@ -37,12 +37,12 @@ with impact, remediation and blast radius:
 Passing CI does **not** mean a change is safe for production. A perfectly
 "green" pull request can still:
 
-- 🌐 Expose an internal service to the internet
-- 💥 Delete or replace a production database
-- 🔓 Open a security group to `0.0.0.0/0`
-- ⚙️ Ship a workload with no probes or resource limits
-- 🔑 Grant `*:*` IAM permissions
-- 🧩 Remove a secret another service depends on
+- Expose an internal service to the internet
+- Delete or replace a production database
+- Open a security group to `0.0.0.0/0`
+- Ship a workload with no probes or resource limits
+- Grant `*:*` IAM permissions
+- Remove a secret another service depends on
 
 Generic AI reviewers look at code. **OpsGuard understands what an infrastructure
 change can break across your whole environment** — and it does so with
@@ -239,8 +239,8 @@ See [ROADMAP.md](ROADMAP.md) for the full picture and our design principles.
 
 ## Documentation
 
-- 🌐 **Website:** <https://mehwish786jnc.github.io/OpsGuard/> — the product landing page.
-- 📚 **Docs:** <https://mehwish786jnc.github.io/OpsGuard/docs/> — installation, usage,
+- **Website:** <https://mehwish786jnc.github.io/OpsGuard/> — the product landing page.
+- **Docs:** <https://mehwish786jnc.github.io/OpsGuard/docs/> — installation, usage,
   the GitHub Action, every rule, AI providers and architecture.
 
 Work on them locally with `make docs-serve` (docs) and by opening
