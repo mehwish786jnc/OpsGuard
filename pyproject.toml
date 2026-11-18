@@ -47,6 +47,12 @@ dev = [
     "pytest-cov>=4.1.0",
     "requests>=2.31.0",
     "ruff>=0.1.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.5.0",
+]
+docs = [
+    "mkdocs-material>=9.5.0",
+    "mkdocs-include-markdown-plugin>=6.0.0",
 ]
 
 [project.urls]
@@ -76,3 +82,15 @@ target-version = "py39"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "C4", "SIM"]
 ignore = ["E501", "B008", "SIM105"]
+
+[tool.mypy]
+python_version = "3.9"
+files = ["src"]
+warn_unused_ignores = true
+warn_redundant_casts = true
+no_implicit_optional = true
+
+# Third-party packages without bundled type information.
+[[tool.mypy.overrides]]
+module = ["networkx", "yaml", "requests"]
+ignore_missing_imports = true

@@ -152,13 +152,14 @@ class ScanResult:
         return max(f.severity for f in self.findings)
 
     def to_dict(self) -> Dict[str, Any]:
+        max_sev = self.max_severity()
         return {
             "summary": {
                 "total_findings": len(self.findings),
                 "resources_scanned": self.resources_scanned,
                 "files_scanned": len(self.files_scanned),
                 "counts_by_severity": self.counts_by_severity(),
-                "max_severity": self.max_severity().name if self.max_severity() else None,
+                "max_severity": max_sev.name if max_sev else None,
             },
             "findings": [f.to_dict() for f in self.sorted_findings()],
             "errors": self.errors,

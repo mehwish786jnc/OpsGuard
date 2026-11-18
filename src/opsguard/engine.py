@@ -66,10 +66,10 @@ def analyze(config: ScanConfig) -> ScanResult:
             if rule.matches(resource):
                 result.extend(rule.evaluate(resource))
 
-    for rule in rules_pkg.get_terraform_rules(config.disabled_rules):
+    for tf_rule in rules_pkg.get_terraform_rules(config.disabled_rules):
         for change in all_tf:
-            if rule.matches(change):
-                result.extend(rule.evaluate(change))
+            if tf_rule.matches(change):
+                result.extend(tf_rule.evaluate(change))
 
     # --- Enrich ------------------------------------------------------------
     annotate_blast_radius(result.findings, graph)
@@ -80,8 +80,6 @@ def analyze(config: ScanConfig) -> ScanResult:
 
     # --- Filter by minimum severity ---------------------------------------
     if config.min_severity > Severity.INFO:
-        result.findings = [
-            f for f in result.findings if f.severity >= config.min_severity
-        ]
+        result.findings = [f for f in result.findings if f.severity >= config.min_severity]
 
     return result

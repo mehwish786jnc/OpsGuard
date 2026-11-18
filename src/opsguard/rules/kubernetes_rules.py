@@ -342,8 +342,7 @@ class ServiceAccountTokenAutomount(KubernetesRule):
                 severity=self.severity,
                 resource=resource.ref,
                 message=(
-                    f"Workload '{resource.name}' does not disable "
-                    "automountServiceAccountToken."
+                    f"Workload '{resource.name}' does not disable automountServiceAccountToken."
                 ),
                 impact="A compromised container can use the mounted token to call the Kubernetes API.",
                 remediation="Set 'automountServiceAccountToken: false' unless the pod needs API access.",
@@ -492,9 +491,7 @@ class MutableImageTag(KubernetesRule):
                     title=self.title,
                     severity=self.severity,
                     resource=resource.ref,
-                    message=(
-                        f"Container '{container_name(c)}' uses an unpinned image: '{image}'."
-                    ),
+                    message=(f"Container '{container_name(c)}' uses an unpinned image: '{image}'."),
                     impact=(
                         "A mutable tag like 'latest' makes rollouts non-reproducible and can pull "
                         "an unreviewed image, including one with new vulnerabilities."

@@ -12,12 +12,25 @@ config, missing reliability guardrails — explains the blast radius, and report
 back in the PR *before* anything is merged.
 
 [![CI](https://github.com/mehwish786jnc/OpsGuard/actions/workflows/ci.yml/badge.svg)](https://github.com/mehwish786jnc/OpsGuard/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/mehwish786jnc/OpsGuard/branch/main/graph/badge.svg)](https://codecov.io/gh/mehwish786jnc/OpsGuard)
+[![Docs](https://github.com/mehwish786jnc/OpsGuard/actions/workflows/docs.yml/badge.svg)](https://mehwish786jnc.github.io/OpsGuard/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](pyproject.toml)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](.pre-commit-config.yaml)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 </div>
 
 ---
+
+## Demo
+
+OpsGuard scanning the bundled risky example — 19 findings, ranked by risk, each
+with impact, remediation and blast radius:
+
+<p align="center">
+  <img src="assets/demo.svg" alt="OpsGuard terminal report for the risky example" width="900">
+</p>
 
 ## Why OpsGuard?
 
@@ -174,8 +187,10 @@ Run `opsguard rules` to list everything. Current coverage:
 | `TF-NET-001` | High | Security group open to the internet |
 | `TF-S3-001` | High/Critical | Public S3 bucket |
 | `TF-RDS-001` | High | Publicly accessible database |
-| `TF-RDS-002` | Medium | Unencrypted database storage |
 | `TF-IAM-001` | High/Critical | Wildcard IAM permissions |
+
+_`opsguard rules` lists **19 rule classes**. `TF-RDS-001` also emits a
+`TF-RDS-002` (Medium) finding when a database sets `storage_encrypted = false`._
 
 Writing a new rule is a few lines of Python — see
 [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -214,22 +229,28 @@ src/opsguard/
 
 ## Roadmap
 
-- [x] **M1 — Infrastructure scanner:** K8s YAML + Terraform plan parsing & rules
-- [x] **M2 — Dependency graph:** blast-radius across deployments/services/secrets
-- [x] **M3 — Risk intelligence:** severity, scoring, AI explanations
-- [x] **M4 — Open-source release:** GitHub Action, PR reports, SARIF, docs
-- [ ] Helm chart & Kustomize rendering
-- [ ] OPA/Rego custom policy support
-- [ ] Trivy / Checkov / KubeLinter enrichment
-- [ ] Baseline diffing for Kubernetes (detect removed env vars/secrets)
-- [ ] GitLab & Bitbucket integrations
+Milestones M1–M4 shipped in `0.1.0`. Next up: Helm & Kustomize rendering,
+OPA/Rego custom policies, scanner enrichment (Trivy/Checkov/KubeLinter),
+Kubernetes baseline diffing, and GitLab/Bitbucket integrations.
+
+See [ROADMAP.md](ROADMAP.md) for the full picture and our design principles.
 
 ---
+
+## Documentation
+
+- 🌐 **Website:** <https://mehwish786jnc.github.io/OpsGuard/> — the product landing page.
+- 📚 **Docs:** <https://mehwish786jnc.github.io/OpsGuard/docs/> — installation, usage,
+  the GitHub Action, every rule, AI providers and architecture.
+
+Work on them locally with `make docs-serve` (docs) and by opening
+[`web/index.html`](web/index.html) (landing page).
 
 ## Contributing
 
 OpsGuard is built to be easy to contribute to — most value lands as new rules.
-Read [CONTRIBUTING.md](CONTRIBUTING.md), pick a rule idea, and open a PR.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), pick a rule idea, and open a PR. By
+participating you agree to our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 

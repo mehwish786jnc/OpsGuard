@@ -22,6 +22,10 @@ htmlcov/
 .ruff_cache/
 .mypy_cache/
 
+# Documentation site (mkdocs build output)
+site/
+public/
+
 # OpsGuard outputs
 *.sarif
 opsguard-report.*

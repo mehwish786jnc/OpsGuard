@@ -72,7 +72,11 @@ class DestructiveStatefulChange(TerraformRule):
     def evaluate(self, change: TfResourceChange) -> List[Finding]:
         if not change.is_destroy:
             return []
-        verb = "replaced (destroyed and recreated)" if change.change_action == ChangeAction.REPLACE else "destroyed"
+        verb = (
+            "replaced (destroyed and recreated)"
+            if change.change_action == ChangeAction.REPLACE
+            else "destroyed"
+        )
         return [
             Finding(
                 rule_id=self.id,
@@ -116,7 +120,9 @@ class SecurityGroupOpenToWorld(TerraformRule):
             ingress_blocks = [cfg]
 
         for block in ingress_blocks:
-            cidrs = set(_as_list(block.get("cidr_blocks"))) | set(_as_list(block.get("ipv6_cidr_blocks")))
+            cidrs = set(_as_list(block.get("cidr_blocks"))) | set(
+                _as_list(block.get("ipv6_cidr_blocks"))
+            )
             if not (cidrs & OPEN_CIDRS):
                 continue
             from_port = block.get("from_port")
@@ -136,7 +142,11 @@ class SecurityGroupOpenToWorld(TerraformRule):
                         ),
                         impact="Exposing admin/database ports to the whole internet invites brute-force and exploitation.",
                         remediation="Restrict 'cidr_blocks' to known office/VPC ranges, or front the service with a bastion/VPN.",
-                        evidence={"from_port": from_port, "to_port": to_port, "cidr_blocks": sorted(cidrs)},
+                        evidence={
+                            "from_port": from_port,
+                            "to_port": to_port,
+                            "cidr_blocks": sorted(cidrs),
+                        },
                     )
                 )
         return findings

@@ -76,7 +76,5 @@ def test_terminal_report_renders(risky_k8s_dir):
 
 
 def test_ai_offline_explanations(risky_k8s_dir):
-    result = analyze(
-        ScanConfig(paths=[risky_k8s_dir], with_ai=True, ai_provider="offline")
-    )
+    result = analyze(ScanConfig(paths=[risky_k8s_dir], with_ai=True, ai_provider="offline"))
     assert all(f.ai_explanation for f in result.findings)

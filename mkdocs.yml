@@ -1,0 +1,69 @@
+site_name: OpsGuard
+site_description: Catch the change before it breaks production. Production change intelligence for Kubernetes & Terraform.
+site_url: https://mehwish786jnc.github.io/OpsGuard/docs/
+repo_url: https://github.com/mehwish786jnc/OpsGuard
+repo_name: mehwish786jnc/OpsGuard
+edit_uri: edit/main/docs/
+copyright: Apache-2.0 licensed · Built by the OpsGuard contributors
+
+theme:
+  name: material
+  icon:
+    logo: material/shield-check
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.instant
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - search.suggest
+    - search.highlight
+
+plugins:
+  - search
+  - include-markdown
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - GitHub Action: github-action.md
+  - Rules: rules.md
+  - AI explanations: ai.md
+  - Architecture: architecture.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md

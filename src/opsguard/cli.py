@@ -40,7 +40,11 @@ def _version_callback(value: bool) -> None:
 @app.callback()
 def _main(
     version: bool = typer.Option(
-        False, "--version", "-V", callback=_version_callback, is_eager=True,
+        False,
+        "--version",
+        "-V",
+        callback=_version_callback,
+        is_eager=True,
         help="Show version and exit.",
     ),
 ) -> None:
@@ -64,32 +68,52 @@ def scan(
         help="Files or directories containing Kubernetes manifests to scan.",
     ),
     tf_plan: Optional[List[Path]] = typer.Option(
-        None, "--tf-plan", help="Terraform plan JSON file(s) (terraform show -json).",
+        None,
+        "--tf-plan",
+        help="Terraform plan JSON file(s) (terraform show -json).",
     ),
     fmt: str = typer.Option(
-        "terminal", "--format", "-f", help="Output format: terminal, markdown, json, sarif.",
+        "terminal",
+        "--format",
+        "-f",
+        help="Output format: terminal, markdown, json, sarif.",
     ),
     output: Optional[Path] = typer.Option(
-        None, "--output", "-o", help="Write the report to a file instead of stdout.",
+        None,
+        "--output",
+        "-o",
+        help="Write the report to a file instead of stdout.",
     ),
     fail_on: str = typer.Option(
-        "high", "--fail-on", help="Exit non-zero if a finding at/above this severity exists "
+        "high",
+        "--fail-on",
+        help="Exit non-zero if a finding at/above this severity exists "
         "(info, low, medium, high, critical, or 'never').",
     ),
     min_severity: str = typer.Option(
-        "info", "--min-severity", help="Hide findings below this severity.",
+        "info",
+        "--min-severity",
+        help="Hide findings below this severity.",
     ),
     disable: Optional[List[str]] = typer.Option(
-        None, "--disable", help="Rule id(s) to disable, e.g. --disable K8S-IMG-001.",
+        None,
+        "--disable",
+        help="Rule id(s) to disable, e.g. --disable K8S-IMG-001.",
     ),
     ai: bool = typer.Option(
-        False, "--ai/--no-ai", help="Attach AI explanations to findings.",
+        False,
+        "--ai/--no-ai",
+        help="Attach AI explanations to findings.",
     ),
     ai_provider: str = typer.Option(
-        "offline", "--ai-provider", help="AI provider: offline, ollama, gemini.",
+        "offline",
+        "--ai-provider",
+        help="AI provider: offline, ollama, gemini.",
     ),
     ai_model: Optional[str] = typer.Option(
-        None, "--ai-model", help="Model name for the AI provider.",
+        None,
+        "--ai-model",
+        help="Model name for the AI provider.",
     ),
 ) -> None:
     """Scan infrastructure changes and report production risks."""
@@ -166,8 +190,8 @@ def rules() -> None:
     for r in k8s:
         typer.echo(f"  {r.id:<18} {r.severity.label:<9} {r.title}")
     typer.secho("\nTerraform rules", bold=True)
-    for r in tf:
-        typer.echo(f"  {r.id:<18} {r.severity.label:<9} {r.title}")
+    for tr in tf:
+        typer.echo(f"  {tr.id:<18} {tr.severity.label:<9} {tr.title}")
     typer.echo(f"\nTotal: {len(k8s) + len(tf)} rules.")
 
 

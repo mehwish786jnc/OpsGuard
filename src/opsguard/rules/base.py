@@ -88,7 +88,7 @@ def register(cls: Type[Rule]) -> Type[Rule]:
     """Class decorator that instantiates and registers a rule."""
     if not getattr(cls, "id", ""):
         raise ValueError(f"Rule {cls.__name__} must define a non-empty 'id'.")
-    instance = cls()  # type: ignore[call-arg]
+    instance = cls()
     if isinstance(instance, KubernetesRule):
         if cls.id in _K8S_RULES:
             raise ValueError(f"Duplicate rule id: {cls.id}")

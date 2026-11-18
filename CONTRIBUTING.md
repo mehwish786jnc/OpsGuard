@@ -9,8 +9,14 @@ valuable contribution — **a new rule** — is also the easiest to add.
 git clone https://github.com/mehwish786jnc/OpsGuard && cd OpsGuard
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
-pytest          # run the test suite
-ruff check src tests
+pre-commit install      # run the formatters/linters on every commit
+
+make check              # lint + format-check + types + tests (the full gate)
+# …or run them individually:
+pytest                  # run the test suite
+ruff check src tests    # lint
+ruff format src tests   # auto-format
+mypy src                # static type-check
 ```
 
 ## Project layout
@@ -81,7 +87,8 @@ A Terraform rule is the same, but subclasses `TerraformRule` and evaluates a
 - Unit-test each rule with a minimal manifest/plan (see `tests/`).
 - Add realistic examples under `examples/` when they help users understand a
   risk.
-- All PRs must pass `pytest` and `ruff check`.
+- All PRs must pass `make check` (ruff lint + format, mypy, and pytest). CI runs
+  the same gate across Python 3.9–3.12.
 
 ## Commit & PR conventions
 

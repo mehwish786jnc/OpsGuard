@@ -165,7 +165,11 @@ def build_graph(
         return by_kind_name.get((kind, ns, name))
 
     # --- Kubernetes edges --------------------------------------------------
-    workloads = [r for r in k8s_resources if r.kind in ("Deployment", "StatefulSet", "DaemonSet", "ReplicaSet", "Pod")]
+    workloads = [
+        r
+        for r in k8s_resources
+        if r.kind in ("Deployment", "StatefulSet", "DaemonSet", "ReplicaSet", "Pod")
+    ]
 
     for r in k8s_resources:
         if r.kind == "Service":
@@ -183,7 +187,15 @@ def build_graph(
                 if target:
                     g.add_edge(r.ref.node_id, target, relation="routes-to")
 
-        if r.kind in ("Deployment", "StatefulSet", "DaemonSet", "ReplicaSet", "Pod", "Job", "CronJob"):
+        if r.kind in (
+            "Deployment",
+            "StatefulSet",
+            "DaemonSet",
+            "ReplicaSet",
+            "Pod",
+            "Job",
+            "CronJob",
+        ):
             for kind, name in _referenced_secrets_configmaps(r):
                 target = _find(kind, name, r.namespace)
                 if target:

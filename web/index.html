@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpsGuard — Catch the change before it breaks production</title>
+    <meta
+      name="description"
+      content="Production change intelligence for Kubernetes & Terraform. OpsGuard traces every infrastructure change in a pull request, scores the blast radius, and blocks the merge before production breaks."
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OpsGuard — production change intelligence" />
+    <meta property="og:description" content="Catch the infrastructure change that breaks production, inside the pull request." />
+    <meta property="og:url" content="https://mehwish786jnc.github.io/OpsGuard/" />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-mono/style.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- ───────────────────────────── Header ───────────────────────────── -->
+    <header class="header" id="header">
+      <a class="brand" href="#" aria-label="OpsGuard home">
+        <svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3Z" fill="#fff" />
+          <path d="m8.5 12 2.4 2.4 4.6-4.8" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="brand__name">OpsGuard</span>
+      </a>
+
+      <nav class="header__nav" aria-label="Primary">
+        <a href="#trace">Trace</a>
+        <a href="#features">Features</a>
+        <a href="#metrics">Metrics</a>
+        <a href="docs/">Docs</a>
+        <a href="https://github.com/mehwish786jnc/OpsGuard">GitHub</a>
+      </nav>
+
+      <div class="header__actions">
+        <a class="btn-square" href="docs/">
+          Get started
+          <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+        </a>
+        <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Full-screen mobile menu -->
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <button class="mobile-menu__close" id="menuClose" type="button" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      </button>
+      <nav aria-label="Mobile">
+        <a href="#trace">Trace</a>
+        <a href="#features">Features</a>
+        <a href="#metrics">Metrics</a>
+        <a href="docs/">Docs</a>
+        <a href="https://github.com/mehwish786jnc/OpsGuard">GitHub</a>
+      </nav>
+      <a class="btn-square btn-square--lg" href="docs/">Get started
+        <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+      </a>
+    </div>
+
+    <main id="main">
+      <!-- ───────────────────────────── Hero ───────────────────────────── -->
+      <section class="hero">
+        <div class="hero__bg" aria-hidden="true">
+          <div class="hero__mesh"></div>
+          <div class="hero__glow"></div>
+          <div class="hero__scrim"></div>
+        </div>
+
+        <div class="hero__inner">
+          <!-- Original animated guard-bot mascot -->
+          <div class="robot" aria-hidden="true">
+          <div class="robot__rings">
+            <span></span><span></span><span></span>
+          </div>
+          <svg class="robot__svg" viewBox="0 0 360 400" role="img">
+            <defs>
+              <linearGradient id="botBody" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#3a3b45" />
+                <stop offset="1" stop-color="#1a1b21" />
+              </linearGradient>
+              <radialGradient id="botEye" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="#bfe0ff" />
+                <stop offset="0.5" stop-color="#52a8ff" />
+                <stop offset="1" stop-color="#1f6fd6" />
+              </radialGradient>
+              <filter id="botGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="5" result="b" />
+                <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
+
+            <!-- hover shadow -->
+            <ellipse class="robot__shadow" cx="180" cy="372" rx="78" ry="13" fill="#52a8ff" />
+
+            <g class="robot__float">
+              <!-- antenna -->
+              <line x1="180" y1="62" x2="180" y2="34" stroke="#3a3a42" stroke-width="4" stroke-linecap="round" />
+              <circle class="robot__antenna" cx="180" cy="28" r="7" fill="url(#botEye)" filter="url(#botGlow)" />
+
+              <!-- arms -->
+              <rect x="78" y="188" width="22" height="86" rx="11" fill="url(#botBody)" stroke="rgba(255,255,255,0.42)" />
+              <rect x="260" y="188" width="22" height="86" rx="11" fill="url(#botBody)" stroke="rgba(255,255,255,0.42)" />
+              <circle cx="89" cy="280" r="9" fill="#26262e" stroke="rgba(255,255,255,0.42)" />
+              <circle cx="271" cy="280" r="9" fill="#26262e" stroke="rgba(255,255,255,0.42)" />
+
+              <!-- head -->
+              <rect x="118" y="60" width="124" height="96" rx="24" fill="url(#botBody)" stroke="rgba(255,255,255,0.42)" />
+              <rect x="108" y="92" width="10" height="30" rx="5" fill="#26262e" stroke="rgba(255,255,255,0.42)" />
+              <rect x="242" y="92" width="10" height="30" rx="5" fill="#26262e" stroke="rgba(255,255,255,0.42)" />
+
+              <!-- visor -->
+              <rect x="132" y="82" width="96" height="52" rx="16" fill="#000" stroke="rgba(82,168,255,0.35)" />
+              <clipPath id="visorClip"><rect x="132" y="82" width="96" height="52" rx="16" /></clipPath>
+              <g clip-path="url(#visorClip)">
+                <rect class="robot__scan" x="132" y="82" width="20" height="52" fill="rgba(82,168,255,0.22)" />
+                <circle class="robot__eye" cx="160" cy="108" r="9" fill="url(#botEye)" filter="url(#botGlow)" />
+                <circle class="robot__eye robot__eye--r" cx="200" cy="108" r="9" fill="url(#botEye)" filter="url(#botGlow)" />
+              </g>
+
+              <!-- body -->
+              <rect x="104" y="164" width="152" height="128" rx="28" fill="url(#botBody)" stroke="rgba(255,255,255,0.42)" />
+              <!-- shield emblem -->
+              <path d="M180 188l30 11v18c0 17-12 29-30 37-18-8-30-20-30-37v-18l30-11Z" fill="#000" stroke="rgba(82,168,255,0.5)" stroke-width="2" />
+              <path class="robot__check" d="m166 222 9 9 18-19" fill="none" stroke="#52a8ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#botGlow)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="hero__copy">
+          <div class="v-chip v-chip--accent hero__tag">
+            <span class="dot dot--accent"></span> PRODUCTION CHANGE INTELLIGENCE
+          </div>
+          <h1 class="headline-fluid">Catch the change before it breaks production.</h1>
+          <p class="hero__sub">
+            OpsGuard traces every Kubernetes &amp; Terraform change in a pull request, scores the
+            blast radius with deterministic rules, and blocks the merge before anything reaches prod.
+          </p>
+          <div class="hero__cta">
+            <a class="btn-square btn-square--hero" href="docs/">
+              Get started
+              <svg class="arrow arrow--lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+            </a>
+            <div class="install" data-copy="pip install opsguard">
+              <code>$ pip install opsguard</code>
+              <button class="install__btn" type="button" aria-label="Copy install command">
+                <svg class="copy-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
+                <svg class="check-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-9" /></svg>
+              </button>
+            </div>
+          </div>
+          <div class="hero__meta">
+            <span class="mono">APACHE-2.0</span>
+            <span class="mono">PYTHON 3.9+</span>
+            <span class="mono">0 NETWORK CALLS</span>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────── Event Stream / Trace ───────────────────────── -->
+      <section class="section" id="trace">
+        <div class="container">
+          <p class="eyebrow">Scan trace</p>
+          <h2 class="section-title">Every scan is a traced pipeline.</h2>
+          <p class="section-sub">
+            One pass over your change — parse, graph, rules, blast radius, score, report — fully
+            observable, fully deterministic.
+          </p>
+
+          <div class="card trace">
+            <div class="trace__head">
+              <div class="trace__id">
+                <span class="mono trace__label">TRACE</span>
+                <span class="mono trace__value">scan_7f3c91a2</span>
+              </div>
+              <div class="trace__chips">
+                <span class="v-chip"><span class="dot dot--green"></span> PASSED PARSE</span>
+                <span class="v-chip"><span class="dot dot--error"></span> 14 FINDINGS</span>
+                <span class="v-chip mono">812MS</span>
+              </div>
+            </div>
+
+            <div class="trace__body">
+              <!-- Sidebar: scanned resources -->
+              <aside class="trace__side" aria-label="Scanned resources">
+                <div class="trace__side-head mono">RESOURCES · 11</div>
+                <ul class="evt">
+                  <li class="is-focus"><span class="dot dot--error"></span><span class="mono">aws_db_instance.prod-db</span></li>
+                  <li><span class="dot dot--error"></span><span class="mono">Deployment/payments-api</span></li>
+                  <li><span class="dot dot--warn"></span><span class="mono">Service/payments-svc</span></li>
+                  <li><span class="dot dot--error"></span><span class="mono">aws_iam_role_policy.ci</span></li>
+                  <li><span class="dot dot--warn"></span><span class="mono">Ingress/payments</span></li>
+                  <li><span class="dot dot--green"></span><span class="mono">Secret/db-creds</span></li>
+                  <li><span class="dot dot--warn"></span><span class="mono">ConfigMap/app-cfg</span></li>
+                  <li><span class="dot dot--green"></span><span class="mono">Deployment/orders-api</span></li>
+                  <li><span class="dot dot--green"></span><span class="mono">aws_s3_bucket.assets</span></li>
+                  <li><span class="dot dot--green"></span><span class="mono">aws_security_group.web</span></li>
+                  <li><span class="dot dot--green"></span><span class="mono">HPA/payments</span></li>
+                </ul>
+              </aside>
+
+              <!-- Table: spans with timeline bars -->
+              <div class="trace__table">
+                <div class="trace__row trace__row--head mono">
+                  <span>SPAN</span><span>START</span><span>DURATION</span>
+                </div>
+                <div class="trace__row">
+                  <span class="mono">parse.kubernetes</span>
+                  <span class="timeline"><i style="left:0%;width:15%"></i></span>
+                  <span class="mono muted">120ms</span>
+                </div>
+                <div class="trace__row">
+                  <span class="mono">parse.terraform</span>
+                  <span class="timeline"><i style="left:15%;width:7%"></i></span>
+                  <span class="mono muted">60ms</span>
+                </div>
+                <div class="trace__row">
+                  <span class="mono">graph.build</span>
+                  <span class="timeline"><i style="left:22%;width:11%"></i></span>
+                  <span class="mono muted">90ms</span>
+                </div>
+                <div class="trace__row is-focus">
+                  <span class="mono">rules.evaluate</span>
+                  <span class="timeline"><i class="is-active" style="left:33%;width:26%"></i></span>
+                  <span class="mono">210ms</span>
+                </div>
+                <div class="trace__row">
+                  <span class="mono">blast_radius.annotate</span>
+                  <span class="timeline"><i style="left:59%;width:19%"></i></span>
+                  <span class="mono muted">150ms</span>
+                </div>
+                <div class="trace__row">
+                  <span class="mono">risk.score</span>
+                  <span class="timeline"><i style="left:78%;width:5%"></i></span>
+                  <span class="mono muted">40ms</span>
+                </div>
+                <div class="trace__row">
+                  <span class="mono">report.render</span>
+                  <span class="timeline"><i style="left:83%;width:17%"></i></span>
+                  <span class="mono muted">142ms</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────── Bento Feature Grid ───────────────────────── -->
+      <section class="section" id="features">
+        <div class="container">
+          <p class="eyebrow">Capabilities</p>
+          <h2 class="section-title">Read the change the way production will.</h2>
+
+          <div class="bento">
+            <!-- Card 1: rule evaluation -->
+            <article class="card bento__card">
+              <header class="bento__head">
+                <h3>Rule evaluation</h3>
+                <span class="v-chip"><span class="dot dot--error"></span> 14 FAIL</span>
+              </header>
+              <ul class="reg">
+                <li><span class="mono">security.policy</span><span class="reg__delta mono">+3</span><span class="v-chip"><span class="dot dot--error"></span> FAIL</span></li>
+                <li><span class="mono">public.exposure</span><span class="reg__delta mono">+1</span><span class="v-chip"><span class="dot dot--error"></span> FAIL</span></li>
+                <li><span class="mono">destructive.change</span><span class="reg__delta mono">+2</span><span class="v-chip"><span class="dot dot--error"></span> FAIL</span></li>
+                <li><span class="mono">reliability.guard</span><span class="reg__delta mono">—</span><span class="v-chip"><span class="dot dot--warn"></span> WARN</span></li>
+                <li><span class="mono">image.hygiene</span><span class="reg__delta mono">0%</span><span class="v-chip"><span class="dot dot--green"></span> PASS</span></li>
+              </ul>
+            </article>
+
+            <!-- Card 2: severity clustering -->
+            <article class="card bento__card">
+              <header class="bento__head">
+                <h3>Severity clustering</h3>
+                <span class="v-chip mono">14 TOTAL</span>
+              </header>
+              <ul class="bars">
+                <li>
+                  <div class="bars__row"><span class="mono">CRITICAL</span><span class="mono muted">2</span></div>
+                  <div class="bars__track"><i class="bars__fill bars__fill--crit" style="width:16%"></i></div>
+                </li>
+                <li>
+                  <div class="bars__row"><span class="mono">HIGH</span><span class="mono muted">5</span></div>
+                  <div class="bars__track"><i class="bars__fill bars__fill--high" style="width:40%"></i></div>
+                </li>
+                <li>
+                  <div class="bars__row"><span class="mono">MEDIUM</span><span class="mono muted">7</span></div>
+                  <div class="bars__track"><i class="bars__fill bars__fill--med" style="width:58%"></i></div>
+                </li>
+                <li>
+                  <div class="bars__row"><span class="mono">LOW</span><span class="mono muted">0</span></div>
+                  <div class="bars__track"><i class="bars__fill" style="width:0%"></i></div>
+                </li>
+              </ul>
+            </article>
+
+            <!-- Card 3: blast-radius replay / diff -->
+            <article class="card bento__card">
+              <header class="bento__head">
+                <h3>Blast-radius replay</h3>
+                <span class="v-chip"><span class="dot dot--accent"></span> 3 DEPS</span>
+              </header>
+              <pre class="diff"><code><span class="diff__line">  resource "aws_db_instance" "prod-db" {</span>
+<span class="diff__line diff__line--mod">~   instance_class = "db.r6g.2xlarge"</span>
+<span class="diff__line diff__line--add">+   publicly_accessible = true</span>
+<span class="diff__line">    storage_encrypted   = false</span>
+<span class="diff__line">  }</span></code></pre>
+              <p class="diff__note mono">→ propagates to payments-api, orders-api, Ingress/payments</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── Metrics ───────────────────────────── -->
+      <section class="section" id="metrics">
+        <div class="container">
+          <p class="eyebrow">By the numbers</p>
+          <h2 class="section-title">Deterministic. Offline. Fast.</h2>
+
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric__val">19<span class="metric__unit">rules</span></div>
+              <p class="metric__sub">deterministic security &amp; reliability checks</p>
+            </div>
+            <div class="metric">
+              <div class="metric__val">812<span class="metric__unit">ms</span></div>
+              <p class="metric__sub">typical scan of a production change set</p>
+            </div>
+            <div class="metric">
+              <div class="metric__val">4<span class="metric__unit">fmt</span></div>
+              <p class="metric__sub">terminal · markdown · json · sarif</p>
+            </div>
+            <div class="metric">
+              <div class="metric__val">0<span class="metric__unit">net</span></div>
+              <p class="metric__sub">network calls required — air-gapped CI friendly</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── CTA ───────────────────────────── -->
+      <section class="section">
+        <div class="container">
+          <div class="card cta">
+            <h2 class="headline-fluid cta__title">Stop merging the change that pages you at 3 a.m.</h2>
+            <p class="cta__sub">Add OpsGuard to your pipeline and see the risk before it ships.</p>
+            <div class="cta__btns">
+              <a class="btn-square btn-square--hero" href="docs/">Get started
+                <svg class="arrow arrow--lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+              </a>
+              <a class="btn-ghost" href="https://github.com/mehwish786jnc/OpsGuard">View on GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ───────────────────────────── Footer ───────────────────────────── -->
+    <footer class="footer">
+      <div class="container footer__grid">
+        <div class="footer__brand">
+          <a class="brand" href="#">
+            <svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3Z" fill="#fff" />
+              <path d="m8.5 12 2.4 2.4 4.6-4.8" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand__name">OpsGuard</span>
+          </a>
+          <p class="mono">PRODUCTION CHANGE INTELLIGENCE<br />FOR KUBERNETES &amp; TERRAFORM</p>
+        </div>
+        <nav class="footer__col" aria-label="Docs">
+          <h4 class="mono">DOCS</h4>
+          <a href="docs/">Overview</a>
+          <a href="docs/usage/">Usage</a>
+          <a href="docs/rules/">Rules</a>
+          <a href="docs/github-action/">GitHub Action</a>
+        </nav>
+        <nav class="footer__col" aria-label="Project">
+          <h4 class="mono">PROJECT</h4>
+          <a href="https://github.com/mehwish786jnc/OpsGuard">GitHub</a>
+          <a href="https://github.com/mehwish786jnc/OpsGuard/blob/main/ROADMAP.md">Roadmap</a>
+          <a href="https://github.com/mehwish786jnc/OpsGuard/blob/main/CHANGELOG.md">Changelog</a>
+          <a href="https://github.com/mehwish786jnc/OpsGuard/blob/main/CONTRIBUTING.md">Contributing</a>
+        </nav>
+        <nav class="footer__col" aria-label="Community">
+          <h4 class="mono">COMMUNITY</h4>
+          <a href="https://github.com/mehwish786jnc/OpsGuard/issues">Issues</a>
+          <a href="https://github.com/mehwish786jnc/OpsGuard/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>
+          <a href="https://github.com/mehwish786jnc/OpsGuard/blob/main/SECURITY.md">Security</a>
+          <a href="https://github.com/mehwish786jnc/OpsGuard/blob/main/LICENSE">License</a>
+        </nav>
+      </div>
+      <div class="container footer__bar mono">
+        <span>© <span id="year">2026</span> OPSGUARD CONTRIBUTORS · APACHE-2.0</span>
+        <span>BUILT FOR ENGINEERS WHO'D RATHER NOT GET PAGED</span>
+      </div>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

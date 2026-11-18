@@ -25,9 +25,7 @@ def test_rules_listing():
 
 
 def test_scan_json_and_gate_fail(risky_k8s_dir):
-    result = runner.invoke(
-        app, ["scan", risky_k8s_dir, "--format", "json", "--fail-on", "high"]
-    )
+    result = runner.invoke(app, ["scan", risky_k8s_dir, "--format", "json", "--fail-on", "high"])
     # Risky fixture has CRITICAL findings -> gate fails with exit code 1.
     assert result.exit_code == 1
     doc = json.loads(result.stdout)
@@ -57,8 +55,16 @@ def test_scan_requires_target():
 def test_scan_disable_rule(risky_k8s_dir):
     result = runner.invoke(
         app,
-        ["scan", risky_k8s_dir, "--format", "json", "--fail-on", "never",
-         "--disable", "K8S-SEC-001"],
+        [
+            "scan",
+            risky_k8s_dir,
+            "--format",
+            "json",
+            "--fail-on",
+            "never",
+            "--disable",
+            "K8S-SEC-001",
+        ],
     )
     assert result.exit_code == 0
     doc = json.loads(result.stdout)

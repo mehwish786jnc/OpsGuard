@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Marketing landing page** (`web/`) — a bespoke, responsive, dark/light
+  product site (hero, feature grid, pipeline, quick-start tabs, rules coverage)
+  deployed to GitHub Pages at the site root, with the docs served under `/docs/`.
+- **Documentation site** (MkDocs Material) with installation, usage, GitHub
+  Action, rules, AI and architecture pages, auto-deployed to GitHub Pages.
+- **Code of Conduct** (Contributor Covenant 2.1), **Dependabot** config,
+  **pre-commit** hooks, a **`CITATION.cff`**, a **`Makefile`** of developer
+  tasks, and a standalone **`ROADMAP.md`**.
+- **Terminal demo asset** (`assets/demo.svg`), regenerated via
+  `scripts/gen_demo.py` / `make demo`, embedded in the README.
+
+### Changed
+
+- CI now runs a dedicated quality gate (ruff lint, `ruff format --check`,
+  `mypy`) and uploads coverage to Codecov. Test coverage raised from 86% to 92%.
+- Adopted `ruff format` across the codebase and added a strict `mypy` config.
+
 ## [0.1.0] - 2026-11-05
 
 ### Added

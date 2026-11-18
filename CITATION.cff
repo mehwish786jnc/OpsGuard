@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use OpsGuard in your work, please cite it as below."
+title: "OpsGuard: Production change intelligence for Kubernetes & Terraform"
+abstract: >-
+  OpsGuard reviews infrastructure changes in a pull request, finds the ones that
+  could take down production — public exposure, destructive changes, insecure
+  config, missing reliability guardrails — explains the blast radius with a
+  dependency graph, and reports back before anything is merged. Security
+  decisions are made by deterministic rules; AI is used only to explain findings.
+type: software
+authors:
+  - name: "OpsGuard Contributors"
+repository-code: "https://github.com/mehwish786jnc/OpsGuard"
+url: "https://github.com/mehwish786jnc/OpsGuard"
+license: Apache-2.0
+keywords:
+  - devops
+  - kubernetes
+  - terraform
+  - security
+  - ci-cd
+  - infrastructure
+  - policy-as-code
+  - risk-analysis

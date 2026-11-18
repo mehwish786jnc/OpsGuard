@@ -9,10 +9,13 @@
 from __future__ import annotations
 
 import json
-from typing import Dict, List
+from typing import TYPE_CHECKING, Dict, List
 
 from opsguard import __version__
 from opsguard.models import Finding, ScanResult, Severity
+
+if TYPE_CHECKING:
+    from rich.console import Console
 
 FORMATS = ("terminal", "markdown", "json", "sarif")
 
@@ -140,15 +143,28 @@ def render_terminal(result: ScanResult, use_color: bool = True) -> str:
     """Render to a string using rich. Returns plain text if rich is unavailable."""
     try:
         from rich.console import Console
-        from rich.panel import Panel
-        from rich.table import Table
-        from rich.text import Text
     except ImportError:  # pragma: no cover
         return _render_terminal_plain(result)
 
     import io
 
-    console = Console(file=io.StringIO(), force_terminal=use_color, width=100, record=False)
+    buffer = io.StringIO()
+    console = Console(file=buffer, force_terminal=use_color, width=100)
+    render_to_console(result, console)
+    return buffer.getvalue()
+
+
+def render_to_console(result: ScanResult, console: "Console") -> None:
+    """Render the report into an existing rich ``Console``.
+
+    Kept separate from :func:`render_terminal` so callers that need a recording
+    console (e.g. ``console.save_svg`` for the README demo) can reuse the exact
+    same layout. See ``scripts/gen_demo.py``.
+    """
+    from rich.panel import Panel
+    from rich.table import Table
+    from rich.text import Text
+
     findings = result.sorted_findings()
     counts = result.counts_by_severity()
 
@@ -167,7 +183,7 @@ def render_terminal(result: ScanResult, use_color: bool = True) -> str:
             f"Scanned {result.resources_scanned} resource(s) across "
             f"{len(result.files_scanned)} file(s)."
         )
-        return console.file.getvalue()
+        return
 
     summary = Table.grid(padding=(0, 2))
     for sev in (Severity.CRITICAL, Severity.HIGH, Severity.MEDIUM, Severity.LOW, Severity.INFO):
@@ -214,9 +230,9 @@ def render_terminal(result: ScanResult, use_color: bool = True) -> str:
             body.append("AI: ", style="bold")
             body.append(f.ai_explanation + "\n")
         title = f"[{f.severity.label}] {f.rule_id} · {f.resource}"
-        console.print(Panel(body, title=title, border_style=_SEVERITY_COLOR[f.severity].split()[-1]))
-
-    return console.file.getvalue()
+        console.print(
+            Panel(body, title=title, border_style=_SEVERITY_COLOR[f.severity].split()[-1])
+        )
 
 
 def _render_terminal_plain(result: ScanResult) -> str:
@@ -255,7 +271,9 @@ def render_sarif(result: ScanResult) -> str:
                 "id": f.rule_id,
                 "name": f.title,
                 "shortDescription": {"text": f.title},
-                "helpUri": f.references[0] if f.references else "https://github.com/mehwish786jnc/OpsGuard",
+                "helpUri": f.references[0]
+                if f.references
+                else "https://github.com/mehwish786jnc/OpsGuard",
                 "properties": {"security-severity": _security_severity(f.severity)},
             }
 
