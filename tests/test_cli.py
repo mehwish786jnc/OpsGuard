@@ -8,7 +8,12 @@ from typer.testing import CliRunner
 
 from opsguard.cli import app
 
-runner = CliRunner(mix_stderr=False)
+# Click < 8.2 needs mix_stderr=False to capture stderr separately; Click >= 8.2
+# removed the argument and always separates the streams.
+try:
+    runner = CliRunner(mix_stderr=False)
+except TypeError:
+    runner = CliRunner()
 
 
 def test_version():
