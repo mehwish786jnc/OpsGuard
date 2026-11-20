@@ -1,0 +1,7 @@
+# Values for the risky-web demo chart. The defaults are intentionally unsafe so
+# `opsguard scan examples/helm-chart` surfaces findings from the rendered output.
+replicaCount: 1
+image:
+  repository: mycorp/web
+  tag: latest
+privileged: true

@@ -31,6 +31,8 @@ class ScanConfig:
     tf_plans: List[str] = field(default_factory=list)
     disabled_rules: Set[str] = field(default_factory=set)
     min_severity: Severity = Severity.INFO
+    render: bool = True
+    helm_values: List[str] = field(default_factory=list)
     with_ai: bool = False
     ai_provider: str = "offline"
     ai_model: Optional[str] = None
@@ -42,7 +44,9 @@ def analyze(config: ScanConfig) -> ScanResult:
     # --- Parse -------------------------------------------------------------
     all_k8s = []
     for path in config.paths:
-        resources, files, errors = scan_kubernetes(path)
+        resources, files, errors = scan_kubernetes(
+            path, render=config.render, helm_values=config.helm_values
+        )
         all_k8s.extend(resources)
         result.files_scanned.extend(files)
         result.errors.extend(errors)

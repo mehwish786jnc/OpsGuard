@@ -1,0 +1,6 @@
+apiVersion: v2
+name: risky-web
+description: A deliberately risky demo chart used to show OpsGuard rendering Helm.
+type: application
+version: 0.1.0
+appVersion: "1.0"

@@ -1,0 +1,11 @@
+# A Kustomize overlay. `opsguard scan examples/kustomize` renders this with
+# `kustomize build` (or `kubectl kustomize`) and scans the result — note the
+# image transformer rewrites the tag to `latest`, which OpsGuard then flags.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: production
+resources:
+  - deployment.yaml
+images:
+  - name: mycorp/notifier
+    newTag: latest                  # K8S-IMG-001 after the transform

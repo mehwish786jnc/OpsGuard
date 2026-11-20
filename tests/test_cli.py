@@ -69,3 +69,10 @@ def test_scan_disable_rule(risky_k8s_dir):
     assert result.exit_code == 0
     doc = json.loads(result.stdout)
     assert all(f["rule_id"] != "K8S-SEC-001" for f in doc["findings"])
+
+
+def test_scan_no_render_skips_chart(helm_chart_dir):
+    # A chart with no `helm` binary and --no-render must not warn or error.
+    result = runner.invoke(app, ["scan", helm_chart_dir, "--no-render", "--fail-on", "never"])
+    assert result.exit_code == 0
+    assert "helm" not in result.stderr

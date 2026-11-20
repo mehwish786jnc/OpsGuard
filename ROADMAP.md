@@ -14,10 +14,10 @@ valuable contribution.
 - [x] **M2 — Dependency graph:** blast-radius across deployments / services / secrets
 - [x] **M3 — Risk intelligence:** severity, scoring, AI explanations
 - [x] **M4 — Open-source release:** GitHub Action, PR reports, SARIF, docs
+- [x] **Helm & Kustomize rendering:** scan templated manifests, not just raw YAML
 
 ## Planned
 
-- [ ] **Helm & Kustomize rendering** — scan templated manifests, not just raw YAML
 - [ ] **OPA / Rego custom policies** — bring-your-own policy alongside built-in rules
 - [ ] **Scanner enrichment** — optional Trivy / Checkov / KubeLinter integration
 - [ ] **Kubernetes baseline diffing** — detect removed env vars / secrets a workload depends on

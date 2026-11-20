@@ -110,6 +110,14 @@ Try it on the bundled examples:
 opsguard scan examples/risky-k8s --tf-plan examples/terraform/tfplan.json --fail-on never
 ```
 
+Point it at a **Helm chart** or **Kustomize overlay** and OpsGuard renders it
+first (via `helm template` / `kustomize build`), then scans the result:
+
+```bash
+opsguard scan examples/helm-chart --values prod.yaml   # needs `helm`
+opsguard scan examples/kustomize                       # needs `kustomize` or `kubectl`
+```
+
 ### Output formats
 
 | Format | Flag | Use for |
@@ -229,7 +237,7 @@ src/opsguard/
 
 ## Roadmap
 
-Milestones M1–M4 shipped in `0.1.0`. Next up: Helm & Kustomize rendering,
+Milestones M1–M4 shipped in `0.1.0`, plus Helm & Kustomize rendering. Next up:
 OPA/Rego custom policies, scanner enrichment (Trivy/Checkov/KubeLinter),
 Kubernetes baseline diffing, and GitLab/Bitbucket integrations.
 

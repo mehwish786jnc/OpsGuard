@@ -72,6 +72,16 @@ def scan(
         "--tf-plan",
         help="Terraform plan JSON file(s) (terraform show -json).",
     ),
+    no_render: bool = typer.Option(
+        False,
+        "--no-render",
+        help="Do not render Helm charts or Kustomize overlays; scan raw YAML only.",
+    ),
+    values: Optional[List[Path]] = typer.Option(
+        None,
+        "--values",
+        help="Helm values file(s) passed to `helm template` (repeatable).",
+    ),
     fmt: str = typer.Option(
         "terminal",
         "--format",
@@ -141,6 +151,8 @@ def scan(
         tf_plans=[str(p) for p in (tf_plan or [])],
         disabled_rules=set(disable or []),
         min_severity=min_sev,
+        render=not no_render,
+        helm_values=[str(v) for v in (values or [])],
         with_ai=ai,
         ai_provider=ai_provider,
         ai_model=ai_model,

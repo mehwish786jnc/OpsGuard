@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Helm & Kustomize rendering** — `opsguard scan` now auto-detects Helm charts
+  (`Chart.yaml`) and Kustomize overlays (`kustomization.yaml`) and renders them
+  to plain manifests (via `helm template` / `kustomize build`, falling back to
+  `kubectl kustomize`) before applying the existing rule set. New `--values`
+  (repeatable Helm values files) and `--no-render` flags; bundled
+  `examples/helm-chart` and `examples/kustomize`. Missing tools or failed
+  renders are reported as warnings and skipped, never aborting the scan.
 - **Marketing landing page** (`web/`) — a bespoke, responsive, dark/light
   product site (hero, feature grid, pipeline, quick-start tabs, rules coverage)
   deployed to GitHub Pages at the site root, with the docs served under `/docs/`.

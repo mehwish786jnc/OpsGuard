@@ -27,3 +27,13 @@ def safe_k8s_dir(examples_dir: str) -> str:
 @pytest.fixture
 def tf_plan(examples_dir: str) -> str:
     return os.path.join(examples_dir, "terraform", "tfplan.json")
+
+
+@pytest.fixture
+def helm_chart_dir(examples_dir: str) -> str:
+    return os.path.join(examples_dir, "helm-chart")
+
+
+@pytest.fixture
+def kustomize_dir(examples_dir: str) -> str:
+    return os.path.join(examples_dir, "kustomize")

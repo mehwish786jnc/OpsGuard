@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifier
+spec:
+  replicas: 1                       # K8S-REL-003: single replica
+  selector:
+    matchLabels:
+      app: notifier
+  template:
+    metadata:
+      labels:
+        app: notifier
+    spec:
+      containers:
+        - name: notifier
+          image: mycorp/notifier:1.0
+          ports:
+            - containerPort: 9090
+          securityContext:
+            privileged: true         # K8S-SEC-001 (CRITICAL)
+          # K8S-REL-001: no probes; K8S-REL-002: no resource requests/limits
