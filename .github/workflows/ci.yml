@@ -36,7 +36,9 @@ jobs:
 
   test:
     name: Test (Python ${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest (now 26.04) no longer ships Python 3.9, which the
+    # project still supports. 22.04 provides the full 3.9–3.12 range.
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
