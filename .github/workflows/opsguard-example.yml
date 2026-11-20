@@ -17,7 +17,7 @@ jobs:
     name: Production change review
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # If you manage infrastructure with Terraform, generate a plan JSON first:
       #
