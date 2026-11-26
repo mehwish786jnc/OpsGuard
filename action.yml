@@ -86,7 +86,7 @@ runs:
     - name: Run OpsGuard
       id: run
       shell: bash
-      run: python "${{ github.action_path }}/entrypoint.py"
+      run: python "${{ github.action_path }}/action/entrypoint.py"
       env:
         INPUT_PATHS: ${{ inputs.paths }}
         INPUT_TF_PLAN: ${{ inputs.tf-plan }}
